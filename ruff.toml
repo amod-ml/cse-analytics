@@ -1,0 +1,91 @@
+line-length = 150
+target-version = "py312"
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    ".serverless",
+    ".aws-sam",
+    "cdk.out",
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+
+[lint]
+select = ["ALL"]
+
+ignore = [
+    "DJ",
+    "EXE",
+    "T10",
+    "S",
+    "D100", "D101", "D102", "D103", "D104", "D107", "D41",
+    "D401",
+    "D205",
+    "D212",
+    "E402",
+    "TRY", "TRY003",
+    "TD002", "TD003",
+    "FIX002",
+    "RET504",
+    "PGH004",
+    "INP001",
+    "COM812",
+    "ANN401",
+    "ANN204",
+    "G004",
+    "EM1",
+    "PERF",
+    "D20",
+    "PTH",
+    "UP00",
+    "ERA",
+    "BLE001",
+    "SIM103",
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[lint.isort]
+known-first-party = ["app"]
+
+[lint.mccabe]
+max-complexity = 10
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.per-file-ignores]
+"__init__.py" = [
+    "F401",
+    "D104",
+]
+"tests/**/*.py" = [
+    "S101",
+    "D10",
+    "ANN",
+]
