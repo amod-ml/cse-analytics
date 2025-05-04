@@ -184,4 +184,6 @@ cython_debug/
 #ignore all files in the output directory
 output/*
 
+.DS_Store
+
 
