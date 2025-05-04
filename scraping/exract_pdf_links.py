@@ -38,8 +38,8 @@ logger = logging.getLogger(__name__)  # Use a named logger
 # Configuration                                                               #
 # --------------------------------------------------------------------------- #
 
-HTML_PATH = Path("output/playwright_explore/quarterly_reports_tab_cleaned.html")
-OUTPUT_PATH = Path("urls.json")
+HTML_PATH = Path("output/playwright_explore_rpe/quarterly_reports_tab_cleaned.html")
+OUTPUT_PATH = Path("urls_rpe.json")
 
 SYSTEM_PROMPT = (
     "You are given the raw HTML source of a page that lists quarterly reports. "
