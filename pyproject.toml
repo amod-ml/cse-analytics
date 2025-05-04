@@ -5,10 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "beautifulsoup4>=4.13.4",
     "crawl4ai>=0.6.2",
     "dash>=3.0.4",
     "fastapi>=0.115.12",
     "google-genai>=1.13.0",
+    "ipykernel>=6.29.5",
     "mistralai>=1.7.0",
     "numpy>=2.2.5",
     "openai>=1.77.0",

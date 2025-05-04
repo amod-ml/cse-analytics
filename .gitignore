@@ -172,3 +172,16 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+#pdf files
+*.pdf
+*.PDF
+*.pdf.gz
+*.PDF.gz
+*.pdf.gz.part
+*.PDF.gz.part
+
+#ignore all files in the output directory
+output/*
+
+
