@@ -30,9 +30,7 @@ async def _save_html_async(filepath: pathlib.Path, content: str, description: st
         logger.error(f"Failed to save {description} HTML to {filepath}: {e}")
 
 
-async def _click_tab_and_wait(
-    page: Page, selector: str, description: str, timeout_ms: int = 15000, wait_after: int = 3000
-) -> bool:
+async def _click_tab_and_wait(page: Page, selector: str, description: str, timeout_ms: int = 15000, wait_after: int = 3000) -> bool:
     """Attempts to click a tab specified by selector and waits."""
     logger.info(f"Attempting to click '{description}' tab with selector: '{selector}'...")
     try:
@@ -61,7 +59,7 @@ def _clean_html(html_content: str) -> str:
 
         # Remove unwanted tags
         removed_count = 0
-        for tag_name in ["script", "style", "noscript", "meta", "link"]: # Include link here
+        for tag_name in ["script", "style", "noscript", "meta", "link"]:  # Include link here
             for tag in soup.find_all(tag_name):
                 # Further check for link tags to only remove stylesheets if needed
                 if tag.name == "link" and "stylesheet" not in tag.get("rel", []):
@@ -98,7 +96,7 @@ async def explore_and_clean_cse_profile(url: str) -> dict:
     }
     playwright = None
     browser = None
-    page = None # Define page here for broader scope in finally block
+    page = None  # Define page here for broader scope in finally block
     initial_html_path = OUTPUT_DIR / "initial_page.html"
     cleaned_quarterly_html_path = OUTPUT_DIR / "quarterly_reports_tab_cleaned.html"
 
@@ -121,15 +119,15 @@ async def explore_and_clean_cse_profile(url: str) -> dict:
         if not await _click_tab_and_wait(page, financials_selector, "Financials"):
             result_info["error"] = f"Failed to click 'Financials' tab ({financials_selector})"
             await _save_html_async(ERROR_HTML_PATH, await page.content(), "Error state after Financials click fail")
-            return result_info # Exit early if first click fails
+            return result_info  # Exit early if first click fails
 
         # --- Click 'Quarterly Reports' Tab ---
-         # *** Adjust selector as needed ***
+        # *** Adjust selector as needed ***
         quarterly_selector = "a:has-text('Quarterly Reports')"
         if not await _click_tab_and_wait(page, quarterly_selector, "Quarterly Reports"):
             result_info["error"] = f"Failed to click 'Quarterly Reports' tab ({quarterly_selector})"
             await _save_html_async(ERROR_HTML_PATH, await page.content(), "Error state after Quarterly Reports click fail")
-            return result_info # Exit early if second click fails
+            return result_info  # Exit early if second click fails
 
         # --- Get, Clean, and Save Final Structure ---
         logger.info("Getting final page HTML for cleaning...")
@@ -138,10 +136,9 @@ async def explore_and_clean_cse_profile(url: str) -> dict:
         await _save_html_async(cleaned_quarterly_html_path, cleaned_html, "Cleaned Quarterly Reports")
         result_info["cleaned_quarterly_reports_path"] = str(cleaned_quarterly_html_path.resolve())
 
-
     except Exception as e:
         error_msg = f"An unexpected error occurred during scraping: {e}"
-        logger.exception(error_msg) # Use logger.exception here
+        logger.exception(error_msg)  # Use logger.exception here
         result_info["error"] = error_msg
         # Attempt to save HTML if page object exists and is usable
         if page and not page.is_closed():
@@ -161,7 +158,7 @@ async def explore_and_clean_cse_profile(url: str) -> dict:
     return result_info
 
 
-async def main() -> None: # Added return type annotation
+async def main() -> None:  # Added return type annotation
     """Main function to run the async scraper."""
     # *** Update this URL if needed ***
     target_url = "https://www.cse.lk/pages/company-profile/company-profile.component.html?symbol=REXP.N0000"

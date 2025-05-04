@@ -1,24 +1,3 @@
-#!/usr/bin/env python3
-"""
-Extract CDN links for quarterly reports from the cleaned HTML and save them to
-`urls.json` in the project root.
-
-Dependencies
-------------
-pip install google-genai python-dotenv
-
-Environment
------------
-Create a `.env` file (or export variables in your shell) containing either
-`GOOGLE_API_KEY` **or** `GEMINI_API_KEY`.
-
-Both variable names are checked for convenience.
-
-Usage
------
-python scraping/exract_pdf_links.py
-"""
-
 from __future__ import annotations
 
 import json
@@ -38,18 +17,16 @@ logger = logging.getLogger(__name__)  # Use a named logger
 # Configuration                                                               #
 # --------------------------------------------------------------------------- #
 
-HTML_PATH = Path("output/playwright_explore_rpe/quarterly_reports_tab_cleaned.html")
-OUTPUT_PATH = Path("urls_rpe.json")
+HTML_PATH = Path("output/playwright_explore/quarterly_reports_tab_cleaned.html")
+OUTPUT_PATH = Path("urls_dpl.json")
 
 SYSTEM_PROMPT = (
     "You are given the raw HTML source of a page that lists quarterly reports. "
-    "Identify only the CDN links that point to the actual quarterly-report files "
-    "(for example URLs ending in .htm, .html, or .pdf containing '10-Q', 'Q1', "
-    "'Q2', 'Q3', or 'Q4'). Ignore every other link, including annual reports, "
-    "proxy statements, images, scripts, and style sheets. For each valid link "
+    "Identify only the CDN links that point to actual Quarterly Financial Reports only."
+    "You must strictly ignore links that point to Interim Financial Statements or any other reports other than Quarterly Financial Reports, "
     "return an object with:\n"
     " • details - the human-readable title of the report if available\n"
-    " • downloadUrl - the absolute URL\n\n"
+    " • download_url - the absolute URL\n\n"
     "Return the collection under the key `results` and conform EXACTLY to the "
     "JSON schema passed in the request."
 )
@@ -82,6 +59,7 @@ def _call_model(client: genai.Client, html: str) -> dict:
     ]
 
     config = types.GenerateContentConfig(
+        temperature=0,
         response_mime_type="application/json",
         response_schema=types.Schema(
             type=types.Type.OBJECT,
@@ -91,10 +69,10 @@ def _call_model(client: genai.Client, html: str) -> dict:
                     type=types.Type.ARRAY,
                     items=types.Schema(
                         type=types.Type.OBJECT,
-                        required=["details", "downloadUrl"],
+                        required=["details", "download_url"],
                         properties={
                             "details": types.Schema(type=types.Type.STRING),
-                            "downloadUrl": types.Schema(type=types.Type.STRING),
+                            "download_url": types.Schema(type=types.Type.STRING),
                         },
                     ),
                 )

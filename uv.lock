@@ -366,6 +366,7 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "spider-client" },
     { name = "structlog" },
+    { name = "tenacity" },
     { name = "uvicorn" },
 ]
 
@@ -390,6 +391,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "spider-client", specifier = ">=0.1.32" },
     { name = "structlog", specifier = ">=25.3.0" },
+    { name = "tenacity", specifier = ">=9.1.2" },
     { name = "uvicorn", specifier = ">=0.34.2" },
 ]
 
