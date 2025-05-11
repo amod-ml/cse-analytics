@@ -3,7 +3,7 @@ import json
 from google import genai
 from google.genai import types
 
-from app.utils.get_google_genai_client import get_google_genai_client
+from app.utils.google_genai_client import get_google_genai_client
 from app.utils.structlogger import logger
 
 
@@ -13,7 +13,7 @@ async def generate_financial_data(file_path: str) -> dict:
 
     logger.info(f"Uploading file: {file_path}")
     files = [
-        client.files.upload(file=file_path),
+        client.files.upload(file=str(file_path)),
     ]
     logger.info(f"File uploaded. URI: {files[0].uri}")
     model = "gemini-2.5-flash-preview-04-17"
@@ -34,7 +34,10 @@ async def generate_financial_data(file_path: str) -> dict:
         ),
     ]
     generate_content_config = types.GenerateContentConfig(
-        temperature=0.2,
+        temperature=0,
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=8192,
+        ),
         response_mime_type="application/json",
         response_schema=genai.types.Schema(
             type=genai.types.Type.OBJECT,
@@ -127,13 +130,13 @@ async def generate_financial_data(file_path: str) -> dict:
     )
 
     logger.info("Calling Gemini model for content extraction...")
+    all_text = ""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=generate_content_config,
     ):
         logger.info("Received response chunk from Gemini model.")
-        logger.debug(f"Chunk text: {chunk.text}")
-        return json.loads(chunk.text)
-    logger.warning("No response chunk received from Gemini model.")
-    return {}
+        all_text += chunk.text
+    logger.info(f"Result: {all_text}")
+    return json.loads(all_text)

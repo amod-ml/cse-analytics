@@ -1,14 +1,14 @@
 format:
-	ruff format
+	uv run ruff format
 
 lint:
-	ruff check .
+	uv run ruff check .
 
 fix:
-	ruff check --fix .
+	uv run ruff check --fix .
 
 run:
-	uvicorn app.main:app --reload
+	uv run uvicorn app.main:app --reload
 
 # Clean up the project including _pycache_
 clean:
