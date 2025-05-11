@@ -77,6 +77,123 @@ See [app/routes/](app/routes/) for implementation details.
 
 ---
 
+## Chatbot Agent (Agno UI)
+
+This project includes an agentic chatbot built with Agno, which can be accessed via a local web UI.
+
+### 1. Setup and Run the Chatbot Backend
+
+The chatbot backend is defined in `chatbot/agentic_chatbot.py`. To run the chatbot backend:
+
+```sh
+uv run python -m chatbot.agentic_chatbot
+```
+
+Alternatively, you can use the Makefile command:
+
+```sh
+make run-chatbot
+```
+
+This will start the Agno agent server, typically on a port like 8000 (as configured in `serve_playground_app`). Ensure your PostgreSQL service (pgvector) is running, as the chatbot uses it for storage. You can start it using:
+```sh
+make pgvector
+```
+
+### 2. Setup and Run the Agno Agent UI
+
+The Agno Agent UI provides a frontend to interact with the chatbot.
+
+**Installation (first time only):**
+
+Use `npx` to create and set up the Agent UI project. This will clone the necessary files and install dependencies.
+
+```sh
+npx create-agent-ui@latest
+```
+
+Follow the prompts. When asked if you want to install dependencies, you can choose 'y'.
+
+```text
+❯ npx create-agent-ui@latest
+Need to install the following packages:
+create-agent-ui@1.1.6
+Ok to proceed? (y) y
+
+       
+       
+       
+        @@@@@@@@@@@@@@@@                                                                            
+        @##############@                                                                            
+         @@@@@@@@@@@####@                                                                           
+                    @####@              @@@@####@@@#@        #@@@@@@@@@#               @@@@@@
+                     @####@           @@@######@@@@###@   @###@@@########@@        @@@########@@@
+                      @####@        @@###@@@ @@@######@   @###@#@@@ @@@####@     @####@@@ @@@@###@
+                       @####@      @####@        @####@   @####@       @####    @###@@        @###@ 
+                        @####@     @###@          ####@   @###@        @####@  @####@          @###@
+                        @#####@    ####@          @###@   @###@        @####@  @###@           @####
+                         @#####@   @###@          ####@   @###@        @####@  @####@          @###@
+                          @#####@  @####@        @####@   @###@        @####@   @###@         @####@
+@@@@@@@@@@@@@@@            @####@   @####@@@@@@@##@###@   @###@        @####@    @###@@     @@###@@ 
+@##############             @####@    @@#######@@ @###@   @####        @####@     @@@##########@@   
+@@@@@@@@@@@@@@@              @@@@@@      @@@@@    ####@   @@@@@         @@@@         @@@@@@@@@      
+                                   @@@@@@        @####@
+                                    @@###@@@@@@@####@
+                                       @@@@####@@@@
+
+
+
+
+🚀 Creating a new Agent UI project: agent-ui
+
+Cloning into 'agent-ui'...
+remote: Enumerating objects: 114, done.
+remote: Counting objects: 100% (114/114), done.
+remote: Compressing objects: 100% (109/109), done.
+remote: Total 114 (delta 1), reused 48 (delta 1), pack-reused 0 (from 0)
+Receiving objects: 100% (114/114), 136.66 KiB | 361.00 KiB/s, done.
+Resolving deltas: 100% (1/1), done.
+
+✅ Project cloned successfully!
+
+Do you want to install all dependencies now? (y/n): y
+
+📦 Installing dependencies...
+```
+
+**Run the Agent UI:**
+
+Once the `agent-ui` directory is created and dependencies are installed, navigate into it and start the development server:
+
+```sh
+cd agent-ui
+npm run dev
+```
+
+This will typically start the Agent UI on `http://localhost:3000`.
+
+```text
+   ▲ Next.js 15.2.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.61:3000 # (Network IP may vary)
+
+ ✓ Starting...
+ Attention: Next.js now collects completely anonymous telemetry regarding usage.
+ This information is used to shape Next.js' roadmap and prioritize features.
+ You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+ https://nextjs.org/telemetry
+
+ ✓ Ready in 1850ms
+```
+
+### 3. Using the Chatbot
+
+- Open your browser and navigate to `http://localhost:3000`.
+- Connect to your local agent server (usually `http://localhost:8000` or the address shown when you started the chatbot backend).
+- You can now interact with the "RAG Agent".
+
+---
+
 ## Scraping & Extraction Scripts
 
 - **scraping/scrape.py**: Uses Playwright to automate browser navigation and save cleaned HTML of the Quarterly Reports tab.
