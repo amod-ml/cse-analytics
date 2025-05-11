@@ -22,7 +22,7 @@ def merge_quarterlies(
     json_dir: Annotated[
         Path,
         Query(..., description="Directory containing the JSON reports"),
-    ]
+    ],
 ) -> MergeQuarterliesResponse:
     """
     Merge all quarterly JSON files in *json_dir* and persist combined CSV/Parquet.

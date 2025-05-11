@@ -72,7 +72,7 @@ fixable = ["ALL"]
 unfixable = []
 
 [lint.isort]
-known-first-party = ["app"]
+known-first-party = ["app", "chatbot"]
 
 [lint.mccabe]
 max-complexity = 10
